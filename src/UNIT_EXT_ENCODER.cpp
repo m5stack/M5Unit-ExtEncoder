@@ -60,6 +60,17 @@ uint32_t UNIT_EXT_ENCODER::getZeroPulseValue(void) {
     return value;
 }
 
+void UNIT_EXT_ENCODER::setZeroPulseValue(uint32_t value) {
+    uint8_t data[4];
+
+    uint8_t reg = UNIT_EXT_ENCODER_ZERO_PULSE_VALUE_REG;
+    data[0]     = (value & 0xff);
+    data[1]     = ((value >> 8) & 0xff);
+    data[2]     = ((value >> 16) & 0xff);
+    data[3]     = ((value >> 24) & 0xff);
+    writeBytes(_addr, reg, data, 4);
+}
+
 uint32_t UNIT_EXT_ENCODER::getMeterValue(void) {
     uint8_t data[4];
 
@@ -95,6 +106,14 @@ void UNIT_EXT_ENCODER::setPerimeter(uint32_t perimeter) {
     data[2]     = ((perimeter >> 16) & 0xff);
     data[3]     = ((perimeter >> 24) & 0xff);
     writeBytes(_addr, reg, data, 4);
+}
+
+void UNIT_EXT_ENCODER::setZeroMode(uint8_t mode) {
+    uint8_t data[8] = {0};
+
+    uint8_t reg = UNIT_EXT_ENCODER_ZERO_MODE_REG;
+    data[0]     = mode;
+    writeBytes(_addr, reg, data, 1);
 }
 
 uint32_t UNIT_EXT_ENCODER::getPerimeter(void) {
